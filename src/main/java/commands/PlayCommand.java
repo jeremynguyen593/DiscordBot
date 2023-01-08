@@ -1,16 +1,23 @@
+package commands;
+
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import lavaplayer.AudioPlayerSendHandler;
+import lavaplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -55,12 +62,38 @@ public class PlayCommand {
 
         AudioPlayer player = playerManager.createPlayer();
 
+        TrackScheduler trackScheduler = new TrackScheduler(player);
+        player.addListener(trackScheduler);
+
         Guild guild = event.getGuild();
         guild.getAudioManager().setSendingHandler(new AudioPlayerSendHandler(player));
 
         // Load and play the YouTube video
-        AudioTrack track = playerManager.loadItem(youtubeVideoUrl).get();
-        player.playTrack(track);
+        playerManager.loadItem(youtubeVideoUrl, new AudioLoadResultHandler() {
+            @Override
+            public void trackLoaded(AudioTrack track) {
+                // The track was successfully loaded
+                player.playTrack(track);
+            }
+
+            @Override
+            public void playlistLoaded(AudioPlaylist playlist) {
+                // The playlist was successfully loaded
+                for (AudioTrack track : playlist.getTracks()) {
+                    player.playTrack(track);
+                }
+            }
+
+            @Override
+            public void noMatches() {
+                // No tracks were found that match the search query
+            }
+
+            @Override
+            public void loadFailed(FriendlyException exception) {
+                // An error occurred while loading the track
+            }
+        });
 
     }
 }
