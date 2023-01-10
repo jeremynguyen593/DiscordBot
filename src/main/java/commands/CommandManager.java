@@ -10,6 +10,8 @@ public class CommandManager extends ListenerAdapter {
         //Grab the user's message to see if it's a command
         String message = event.getMessage().getContentRaw();
 
+        //If the bot sent the message, ignore it
+
         //Just a test command to see if the bot is working properly
         if (message.equals("!test")) {
             event.getChannel().sendMessage("Testing!").queue();
@@ -23,6 +25,7 @@ public class CommandManager extends ListenerAdapter {
                 if (event.getMember().getVoiceState().getChannel() == null) {
                     event.getChannel().sendMessage("You are not in a voice channel!").queue();
                 } else {
+                    //joinCommand();
                     //playCommand(ArrayList queue, String song, MessageReceivedEvent event)
                 }
 
