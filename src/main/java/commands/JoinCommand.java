@@ -1,6 +1,7 @@
 package commands;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
@@ -10,13 +11,14 @@ public class JoinCommand {
     public static void joinChannel(MessageReceivedEvent event) {
         Guild guild = event.getGuild();
 
-        JDA jda = event.getJDA();
+        VoiceChannel userVoiceChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
 
-        String channelUserIsIn = event.getMember().getVoiceState().getChannel().toString();
+        if (!userVoiceChannel.getGuild().getSelfMember().hasPermission(userVoiceChannel, Permission.VOICE_CONNECT)) {
+            event.getChannel().sendMessage("I do not have permission to join this voice channel.").queue();
+            return;
+        }
 
-        VoiceChannel voiceChannel = guild.getVoiceChannelsByName(channelUserIsIn, true).get(0);
-
-        Member bot = guild.getSelfMember();
+        guild.getAudioManager().openAudioConnection(userVoiceChannel);
 
     }
 }
