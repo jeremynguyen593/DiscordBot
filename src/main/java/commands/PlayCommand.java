@@ -26,6 +26,7 @@ import java.util.List;
 
 public class PlayCommand {
     public static void play(String song, MessageReceivedEvent event) throws Exception{
+        /*
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         final String YOUTUBE_KEY = dotenv.get("YOUTUBE_KEY");
 
@@ -54,8 +55,10 @@ public class PlayCommand {
         SearchResult result = searchResultList.get(0);
         String videoId = result.getId().getVideoId();
 
+         */
+
         // Build the YouTube video URL
-        String youtubeVideoUrl = "https://www.youtube.com/watch?v=" + videoId;
+        String youtubeVideoUrl = "https://www.youtube.com/watch?v=nV_uKxGPF_I"; //+ videoId
 
         AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
@@ -87,11 +90,13 @@ public class PlayCommand {
             @Override
             public void noMatches() {
                 // No tracks were found that match the search query
+                event.getChannel().sendMessage("No songs were found.").queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
                 // An error occurred while loading the track
+                event.getChannel().sendMessage("An error has occured.").queue();
             }
         });
 
