@@ -6,13 +6,18 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import static commands.JoinCommand.joinChannel;
+import static commands.PlayCommand.play;
 
 public class CommandManager extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        //If the bot sent the message, ignore it
+        if (event.getAuthor().isBot()) {
+            return;
+        }
+
         //Grab the user's message to see if it's a command
         String message = event.getMessage().getContentRaw();
 
-        //If the bot sent the message, ignore it
 
         //Just a test command to see if the bot is working properly
         if (message.equals("!test")) {
@@ -28,7 +33,7 @@ public class CommandManager extends ListenerAdapter {
                     event.getChannel().sendMessage("You are not in a voice channel!").queue();
                 } else {
                     joinChannel(event);
-                    //playCommand(ArrayList queue, String song, MessageReceivedEvent event)
+                    play(song, event);
                 }
 
             }

@@ -1,5 +1,6 @@
 import commands.CommandManager;
 import commands.VoiceUpdate;
+import lavaplayer.MusicBot;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,12 +16,14 @@ public class DiscordBot extends ListenerAdapter{
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         final String DISCORD = dotenv.get("DISCORD_API_KEY");
 
+        MusicBot musicBot = new MusicBot();
+
         JDABuilder jdaBuilder = JDABuilder.createDefault(DISCORD);
         jdaBuilder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
         jdaBuilder.enableCache(CacheFlag.VOICE_STATE);
         JDA jda = jdaBuilder.build();
 
-        jda.addEventListener(new VoiceUpdate(), new CommandManager());
+        jda.addEventListener(new VoiceUpdate(), new CommandManager(), musicBot);
     }
 
 }
