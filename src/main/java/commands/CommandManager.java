@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
-import static commands.JoinCommand.joinChannel;
 import static commands.PlayCommand.play;
 
 public class CommandManager extends ListenerAdapter {
@@ -28,13 +27,7 @@ public class CommandManager extends ListenerAdapter {
             if (message.equals("!play")) {
                 event.getChannel().sendMessage("Please enter a song!").queue();
             } else {
-                //Checks if the user is in a voice channel
-                if (event.getMember().getVoiceState().getChannel() == null) {
-                    event.getChannel().sendMessage("You are not in a voice channel!").queue();
-                } else {
-                    joinChannel(event);
-                    play(song, event);
-                }
+                play(song, event);
 
             }
         }

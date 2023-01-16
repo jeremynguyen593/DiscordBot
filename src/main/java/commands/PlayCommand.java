@@ -11,10 +11,19 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static commands.JoinCommand.joinChannel;
 import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
 public class PlayCommand {
     public static void play(String song, MessageReceivedEvent event) {
+        //Checks if the user is in a voice channel
+        if (event.getMember().getVoiceState().getChannel() == null) {
+            event.getChannel().sendMessage("You are not in a voice channel!").queue();
+            return;
+        }
+
+        joinChannel(event);
+
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild());
 
             if(!isUrl(song)) {
