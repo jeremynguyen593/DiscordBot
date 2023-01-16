@@ -8,21 +8,34 @@ import lavaplayer.GuildMusicManager;
 import lavaplayer.MusicBot;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
 public class PlayCommand {
     public static void play(String song, MessageReceivedEvent event) {
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild());
+
+            if(!isUrl(song)) {
+                song = "ytsearch:" + song + " official audio";
+            }
+
         MusicBot.playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
+                event.getChannel().sendMessage("Adding to the queue **`" + audioTrack.getInfo().title +
+                        "`** by **`" + audioTrack.getInfo().author + "`**").queue();
                 musicManager.scheduler.queue(audioTrack);
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                for (AudioTrack track : audioPlaylist.getTracks()) {
-                    musicManager.scheduler.queue(track);
+                for (AudioTrack tracks : audioPlaylist.getTracks()) {
+                    event.getChannel().sendMessage("Adding to the queue **`" + tracks.getInfo().title +
+                            "`** by **`" + tracks.getInfo().author + "`**").queue();
+                    musicManager.scheduler.queue(tracks);
+                    break;
                 }
             }
 
@@ -36,5 +49,14 @@ public class PlayCommand {
                 event.getChannel().sendMessage("Something went wrong. Please try again later.").queue();
             }
         });
+    }
+
+    public static boolean isUrl(String url) {
+        try {
+            new URI(url);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 }
