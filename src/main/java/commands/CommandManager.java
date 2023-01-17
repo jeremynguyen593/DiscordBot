@@ -1,11 +1,15 @@
 package commands;
 
+import lavaplayer.GuildMusicManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
-import static commands.PlayCommand.play;
+import static commands.MusicCommands.play;
+import static commands.PauseCommand.pause;
+import static commands.ResumeCommand.resume;
+import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
 public class CommandManager extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -13,10 +17,9 @@ public class CommandManager extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         }
-
+        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild());
         //Grab the user's message to see if it's a command
         String message = event.getMessage().getContentRaw();
-
 
         //Just a test command to see if the bot is working properly
         if (message.equals("!test")) {
@@ -27,9 +30,12 @@ public class CommandManager extends ListenerAdapter {
             if (message.equals("!play")) {
                 event.getChannel().sendMessage("Please enter a song!").queue();
             } else {
-                play(song, event);
-
+                play(song, event, musicManager);
             }
+        } else if (message.equals("!pause")) {
+            pause(musicManager, event.getChannel());
+        } else if (message.equals("!resume")) {
+            resume(musicManager, event.getChannel());
         }
     }
 

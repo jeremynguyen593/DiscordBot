@@ -14,17 +14,14 @@ import java.net.URISyntaxException;
 import static commands.JoinCommand.joinChannel;
 import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
-public class PlayCommand {
-    public static void play(String song, MessageReceivedEvent event) {
+public class MusicCommands {
+    public static void play(String song, MessageReceivedEvent event, GuildMusicManager musicManager) {
         //Checks if the user is in a voice channel
         if (event.getMember().getVoiceState().getChannel() == null) {
             event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
         }
-
         joinChannel(event);
-
-        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild());
 
             if(!isUrl(song)) {
                 song = "ytsearch:" + song + " official audio";
