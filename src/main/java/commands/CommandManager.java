@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
-import static commands.MusicCommands.play;
+import static commands.playCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.ResumeCommand.resume;
 import static lavaplayer.MusicBot.getGuildAudioPlayer;
@@ -28,7 +28,7 @@ public class CommandManager extends ListenerAdapter {
         } else if (message.startsWith("!play")) {
             String song = message.substring(message.indexOf(" ") + 1);
             if (message.equals("!play")) {
-                event.getChannel().sendMessage("Please enter a song!").queue();
+                event.getChannel().sendMessage("Please enter a song").queue();
             } else {
                 play(song, event, musicManager);
             }
