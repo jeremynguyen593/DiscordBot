@@ -12,7 +12,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static commands.JoinCommand.joinChannel;
-import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
 public class MusicCommands {
     public static void play(String song, MessageReceivedEvent event, GuildMusicManager musicManager) {
@@ -21,15 +20,15 @@ public class MusicCommands {
             event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
         }
-        joinChannel(event);
 
-            if(!isUrl(song)) {
-                song = "ytsearch:" + song + " official audio";
-            }
+        if(!isUrl(song)) {
+            song = "ytsearch:" + song + " official audio";
+        }
 
         MusicBot.playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
+                joinChannel(event);
                 event.getChannel().sendMessage("Adding to the queue **`" + audioTrack.getInfo().title +
                         "`** by **`" + audioTrack.getInfo().author + "`**").queue();
                 musicManager.scheduler.queue(audioTrack);
@@ -38,6 +37,7 @@ public class MusicCommands {
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 for (AudioTrack tracks : audioPlaylist.getTracks()) {
+                    joinChannel(event);
                     event.getChannel().sendMessage("Adding to the queue **`" + tracks.getInfo().title +
                             "`** by **`" + tracks.getInfo().author + "`**").queue();
                     musicManager.scheduler.queue(tracks);
@@ -47,14 +47,15 @@ public class MusicCommands {
 
             @Override
             public void noMatches() {
-                event.getChannel().sendMessage("Song was not found!").queue();
+                event.getChannel().sendMessage("Song was not found.").queue();
             }
 
             @Override
             public void loadFailed(FriendlyException e) {
-                event.getChannel().sendMessage("Something went wrong. Please try again later.").queue();
+                event.getChannel().sendMessage("Song may be private, age-restricted, and/or was an invalid URL.").queue();
             }
         });
+
     }
 
     public static boolean isUrl(String url) {

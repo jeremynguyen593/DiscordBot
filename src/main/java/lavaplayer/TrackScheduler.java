@@ -42,4 +42,7 @@ public class TrackScheduler extends AudioEventAdapter {
     public void onPlayerResume(AudioPlayer player) {
         player.setPaused(false);
     }
+    public AudioTrack getPlayingTrack() {
+        return player.getPlayingTrack();
+    }
 }
