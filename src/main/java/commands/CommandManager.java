@@ -22,8 +22,8 @@ public class CommandManager extends ListenerAdapter {
         String message = event.getMessage().getContentRaw();
 
         //Just a test command to see if the bot is working properly
-        if (message.equals("!test")) {
-            event.getChannel().sendMessage("Testing!").queue();
+        if (message.equals("!help")) {
+            event.getChannel().sendMessage("Helping!").queue();
             //
         } else if (message.startsWith("!play")) {
             String song = message.substring(message.indexOf(" ") + 1);
