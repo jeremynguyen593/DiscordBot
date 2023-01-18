@@ -1,3 +1,5 @@
+package bot;
+
 import commands.CommandManager;
 import commands.VoiceUpdate;
 import lavaplayer.MusicBot;
@@ -6,15 +8,22 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.Environment;
 
-import javax.security.auth.login.LoginException;
-
+@SpringBootApplication
 public class DiscordBot extends ListenerAdapter{
-    public static void main(String[] args) throws LoginException {
-        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
-        final String DISCORD = dotenv.get("DISCORD_API_KEY");
+    @Autowired
+    private Environment env;
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext ctx = SpringApplication.run(DiscordBot.class, args);
+        Environment env = ctx.getBean(Environment.class);
+        String DISCORD = env.getProperty("TOKEN");
 
         MusicBot musicBot = new MusicBot();
 
@@ -25,5 +34,4 @@ public class DiscordBot extends ListenerAdapter{
 
         jda.addEventListener(new VoiceUpdate(), new CommandManager(), musicBot);
     }
-
 }
