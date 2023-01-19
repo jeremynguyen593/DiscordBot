@@ -17,7 +17,7 @@ public class playCommand {
     public static void play(String song, MessageReceivedEvent event, GuildMusicManager musicManager) {
         //Checks if the user is in a voice channel
         if (event.getMember().getVoiceState().getChannel() == null) {
-            event.getChannel().sendMessage("You are not in a voice channel").queue();
+            event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
         }
 
@@ -47,12 +47,12 @@ public class playCommand {
 
             @Override
             public void noMatches() {
-                event.getChannel().sendMessage("Song was not found").queue();
+                event.getChannel().sendMessage("Song was not found.").queue();
             }
 
             @Override
             public void loadFailed(FriendlyException e) {
-                event.getChannel().sendMessage("Song may be private, age-restricted, and/or was an invalid URL").queue();
+                event.getChannel().sendMessage("Song may be private, age-restricted, and/or was an invalid URL.").queue();
             }
         });
 

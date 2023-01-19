@@ -32,6 +32,6 @@ public class DiscordBot extends ListenerAdapter{
         jdaBuilder.enableCache(CacheFlag.VOICE_STATE);
         JDA jda = jdaBuilder.build();
 
-        jda.addEventListener(new VoiceUpdate(), new CommandManager(), musicBot);
+        jda.addEventListener(new VoiceUpdate(), new CommandManager(), musicBot, new JoinMessage());
     }
 }

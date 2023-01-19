@@ -28,7 +28,7 @@ public class CommandManager extends ListenerAdapter {
         } else if (message.startsWith("!play")) {
             String song = message.substring(message.indexOf(" ") + 1);
             if (message.equals("!play")) {
-                event.getChannel().sendMessage("Please enter a song").queue();
+                event.getChannel().sendMessage("Please enter a song.").queue();
             } else {
                 play(song, event, musicManager);
             }
