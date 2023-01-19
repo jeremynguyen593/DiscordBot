@@ -1,19 +1,21 @@
 package commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavaplayer.GuildMusicManager;
-import lavaplayer.MusicBot;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import static commands.JoinCommand.joinChannel;
+import static lavaplayer.MusicBot.playerManager;
 
-public class playCommand {
+public class PlayCommand {
     public static void play(String song, MessageReceivedEvent event, GuildMusicManager musicManager) {
         //Checks if the user is in a voice channel
         if (event.getMember().getVoiceState().getChannel() == null) {
@@ -24,13 +26,17 @@ public class playCommand {
         if(!isUrl(song)) {
             song = "ytsearch:" + song + " official audio";
         }
+        AudioEventAdapter eventAdapter = new AudioEventAdapter() {
+            @Override
+            public void onTrackStart(AudioPlayer player, AudioTrack track) {
+                event.getChannel().sendMessage("Now playing: **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
+            }
+        };
+        musicManager.player.addListener(eventAdapter);
 
-        MusicBot.playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
+        playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                joinChannel(event);
-                event.getChannel().sendMessage("Adding to the queue **`" + audioTrack.getInfo().title +
-                        "`** by **`" + audioTrack.getInfo().author + "`**").queue();
                 musicManager.scheduler.queue(audioTrack);
             }
 
@@ -55,7 +61,6 @@ public class playCommand {
                 event.getChannel().sendMessage("Song may be private, age-restricted, and/or was an invalid URL.").queue();
             }
         });
-
     }
 
     public static boolean isUrl(String url) {

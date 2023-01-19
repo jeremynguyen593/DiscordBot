@@ -6,9 +6,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
-import static commands.playCommand.play;
+import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.ResumeCommand.resume;
+import static commands.SkipCommand.skip;
 import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
 public class CommandManager extends ListenerAdapter {
@@ -36,6 +37,8 @@ public class CommandManager extends ListenerAdapter {
             pause(musicManager, event.getChannel());
         } else if (message.equals("!resume")) {
             resume(musicManager, event.getChannel());
+        } else if (message.equals("!skip")) {
+            skip(musicManager, event.getChannel());
         }
     }
 
