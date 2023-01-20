@@ -6,8 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
@@ -37,7 +36,10 @@ public class TrackScheduler extends AudioEventAdapter {
     }
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        event.getChannel().sendMessage("Now playing: **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutorService.schedule(() -> {
+            event.getChannel().sendMessage("Now playing: **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
+        }, 1, TimeUnit.SECONDS);
     }
 
     @Override

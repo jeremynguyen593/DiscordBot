@@ -10,6 +10,7 @@ import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.ResumeCommand.resume;
 import static commands.SkipCommand.skip;
+import static commands.StopCommand.stop;
 import static lavaplayer.MusicBot.getGuildAudioPlayer;
 
 public class CommandManager extends ListenerAdapter {
@@ -39,6 +40,8 @@ public class CommandManager extends ListenerAdapter {
             resume(musicManager, event.getChannel());
         } else if (message.equals("!skip")) {
             skip(musicManager, event.getChannel());
+        } else if (message.equals("!stop")) {
+            stop(musicManager, event.getChannel());
         }
     }
 
