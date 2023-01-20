@@ -24,6 +24,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void nextTrack() {
+
         this.player.startTrack(this.queue.poll(), false);
     }
     @Override
@@ -45,4 +46,5 @@ public class TrackScheduler extends AudioEventAdapter {
     public AudioTrack getPlayingTrack() {
         return player.getPlayingTrack();
     }
+
 }

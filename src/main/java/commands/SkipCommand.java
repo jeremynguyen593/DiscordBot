@@ -10,6 +10,5 @@ public class SkipCommand {
         } else {
             musicManager.scheduler.nextTrack();
         }
-
     }
 }

@@ -1,8 +1,6 @@
 package commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -26,18 +24,12 @@ public class PlayCommand {
         if(!isUrl(song)) {
             song = "ytsearch:" + song + " official audio";
         }
-        AudioEventAdapter eventAdapter = new AudioEventAdapter() {
-            @Override
-            public void onTrackStart(AudioPlayer player, AudioTrack track) {
-                event.getChannel().sendMessage("Now playing: **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
-            }
-        };
-        musicManager.player.addListener(eventAdapter);
-
+        //event.getChannel().sendMessage("Now playing: **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
         playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
+
             }
 
             @Override
