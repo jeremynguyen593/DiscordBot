@@ -18,7 +18,7 @@ public class CommandManager extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         }
-        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild());
+        GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(), event);
         //Grab the user's message to see if it's a command
         String message = event.getMessage().getContentRaw();
 

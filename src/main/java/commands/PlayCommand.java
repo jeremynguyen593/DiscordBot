@@ -24,7 +24,7 @@ public class PlayCommand {
         if(!isUrl(song)) {
             song = "ytsearch:" + song + " official audio";
         }
-        //event.getChannel().sendMessage("Now playing: **`" + track.getInfo().title + "`** by **`" + track.getInfo().author + "`**").queue();
+
         playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
