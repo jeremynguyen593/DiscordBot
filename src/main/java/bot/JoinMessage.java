@@ -10,7 +10,7 @@ public class JoinMessage extends ListenerAdapter {
     public void onGuildJoin(GuildJoinEvent event) {
         Guild guild = event.getGuild();
         TextChannel channel = (TextChannel) guild.getDefaultChannel();
-        channel.sendMessage("Hello, I am Musicz! Thanks for inviting me! To get started, type **`!play <song_name>`**.\n\n" +
+        channel.sendMessage("Hello, I am Musicz! Thanks for inviting me! To get started, type **`!play <song>`**.\n\n" +
                 "Use **`!help`** for a list of commands.").queue();
     }
 }
