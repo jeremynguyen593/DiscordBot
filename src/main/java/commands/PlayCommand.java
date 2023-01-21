@@ -7,9 +7,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavaplayer.GuildMusicManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import static commands.JoinCommand.joinChannel;
 import static lavaplayer.MusicBot.playerManager;
 
@@ -20,8 +17,9 @@ public class PlayCommand {
             event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
         }
+        String link = "https://www.youtube.com/watch?v=";
 
-        if(!isUrl(song)) {
+        if(!song.startsWith(link)) {
             song = "ytsearch:" + song + " official audio";
         }
 
@@ -53,14 +51,5 @@ public class PlayCommand {
                 event.getChannel().sendMessage("Song may be private, age-restricted, and/or was an invalid URL.").queue();
             }
         });
-    }
-
-    public static boolean isUrl(String url) {
-        try {
-            new URI(url);
-            return true;
-        } catch (URISyntaxException e) {
-            return false;
-        }
     }
 }
