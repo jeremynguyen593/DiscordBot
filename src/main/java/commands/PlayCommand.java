@@ -7,6 +7,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lavaplayer.GuildMusicManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import static commands.JoinCommand.joinChannel;
 import static lavaplayer.MusicBot.playerManager;
 
@@ -17,10 +20,14 @@ public class PlayCommand {
             event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
         }
-        String link = "https://www.youtube.com/watch?v=";
-
-        if(!song.startsWith(link)) {
-            song = "ytsearch:" + song + " official audio";
+        try {
+            URI uri = new URI(song);
+            String host = uri.getHost();
+            if(!host.startsWith("www.youtube.com")) {
+                song = "ytsearch:" +song + " official audio";
+            }
+        } catch (URISyntaxException e) {
+            song = "ytsearch:" +song + " official audio";
         }
 
         playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {

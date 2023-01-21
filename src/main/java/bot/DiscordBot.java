@@ -23,7 +23,7 @@ public class DiscordBot extends ListenerAdapter{
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(DiscordBot.class, args);
         Environment env = ctx.getBean(Environment.class);
-        String DISCORD = env.getProperty("TOKEN");
+        final String DISCORD = env.getProperty("TOKEN");
 
         MusicBot musicBot = new MusicBot();
 
