@@ -20,21 +20,18 @@ public class PlayCommand {
             event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
         }
-        try {
-            URI uri = new URI(song);
-            String host = uri.getHost();
-            if(!host.startsWith("www.youtube.com")) {
-                song = "ytsearch:" +song + " official audio";
-            }
-        } catch (URISyntaxException e) {
-            song = "ytsearch:" +song + " official audio";
+
+        if (!isUrl(song)) {
+            song = "ytsearch:" + song;
         }
 
         playerManager.loadItemOrdered(musicManager, song, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
+                joinChannel(event);
+                event.getChannel().sendMessage("Adding to the queue **`" + audioTrack.getInfo().title +
+                        "`** by **`" + audioTrack.getInfo().author + "`**").queue();
                 musicManager.scheduler.queue(audioTrack);
-
             }
 
             @Override
@@ -58,5 +55,13 @@ public class PlayCommand {
                 event.getChannel().sendMessage("Song may be private, age-restricted, and/or was an invalid URL.").queue();
             }
         });
+    }
+    public static boolean isUrl(String url) {
+        try {
+            new URI(url);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 }
