@@ -11,7 +11,7 @@ public class ResumeCommand {
             channel.sendMessage("Music is not currently paused.").queue();
         } else {
             musicManager.player.setPaused(false);
-            channel.sendMessage("Resuming music...").queue();
+            channel.sendMessage("Resuming music!").queue();
         }
     }
 }
