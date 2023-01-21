@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
+import static commands.ClearCommand.clear;
 import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.QueueCommand.queue;
@@ -45,6 +46,8 @@ public class CommandManager extends ListenerAdapter {
             stop(musicManager, event.getChannel());
         } else if (message.equals("!queue")) {
             queue(musicManager, event);
+        } else if (message.equals("!clear")) {
+            clear(musicManager, event.getChannel());
         }
     }
 

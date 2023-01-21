@@ -61,4 +61,8 @@ public class TrackScheduler extends AudioEventAdapter {
         return new ArrayList<>(queue);
     }
 
+    public void clearQueue(AudioTrack track) {
+        track = queue.poll();
+        queue.clear();
+    }
 }
