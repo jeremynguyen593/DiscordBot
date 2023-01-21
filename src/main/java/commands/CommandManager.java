@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import static commands.ClearCommand.clear;
+import static commands.HelpCommand.help;
 import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.QueueCommand.queue;
@@ -27,7 +28,7 @@ public class CommandManager extends ListenerAdapter {
 
         //Just a test command to see if the bot is working properly
         if (message.equals("!help")) {
-            event.getChannel().sendMessage("Helping!").queue();
+            help(event.getChannel());
             //
         } else if (message.startsWith("!play")) {
             String song = message.substring(message.indexOf(" ") + 1);
