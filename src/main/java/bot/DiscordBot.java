@@ -1,7 +1,6 @@
 package bot;
 
 import commands.CommandManager;
-import commands.VoiceUpdate;
 import lavaplayer.MusicBot;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

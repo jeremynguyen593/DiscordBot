@@ -11,7 +11,7 @@ public class QueueCommand {
         List<AudioTrack> queueList = musicManager.scheduler.getQueue();
         AudioTrack track = musicManager.player.getPlayingTrack();
 
-        if (queueList.isEmpty() && track == null) {
+        if (track == null) {
             event.getChannel().sendMessage("The queue is currently empty.").queue();
         } else {
             StringBuilder sb = new StringBuilder();
