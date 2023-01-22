@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static commands.ClearCommand.clear;
 import static commands.HelpCommand.help;
+import static commands.LyricsCommand.lyrics;
 import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.QueueCommand.queue;
@@ -49,6 +50,8 @@ public class CommandManager extends ListenerAdapter {
             queue(musicManager, event);
         } else if (message.equals("!clear")) {
             clear(musicManager, event.getChannel());
+        } else if (message.equals("!lyrics")) {
+            lyrics(musicManager, event.getChannel());
         }
     }
 

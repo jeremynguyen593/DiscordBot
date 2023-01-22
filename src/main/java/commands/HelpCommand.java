@@ -11,6 +11,7 @@ public class HelpCommand {
                 "4. **`!resume`** **`Resumes the paused song.`**\n\n" +
                 "5. **`!skip`** **`Skips over to the next song in the queue.`**\n\n" +
                 "6. **`!stop`** **`Stops the whole bot from playing music.`**\n\n" +
-                "7. **`!clear`** **`Clears the music queue but continues playing the current song.`**\n\n").queue();
+                "7. **`!clear`** **`Clears the music queue but continues playing the current song.`**\n\n" +
+                "8. **`!queue`** **`Reveals the music queue.`**\n\n").queue();
     }
 }
