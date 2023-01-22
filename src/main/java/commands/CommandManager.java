@@ -51,7 +51,7 @@ public class CommandManager extends ListenerAdapter {
         } else if (message.equals("!clear")) {
             clear(musicManager, event.getChannel());
         } else if (message.equals("!lyrics")) {
-            lyrics(musicManager, event.getChannel());
+            //lyrics(musicManager, event.getChannel());
         }
     }
 
