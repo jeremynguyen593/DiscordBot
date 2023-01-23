@@ -6,9 +6,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 import static commands.ClearCommand.clear;
 import static commands.HelpCommand.help;
-//import static commands.LyricsCommand.lyrics;
+import static commands.LyricsCommand.lyrics;
 import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
 import static commands.QueueCommand.queue;
@@ -50,8 +52,16 @@ public class CommandManager extends ListenerAdapter {
             queue(musicManager, event);
         } else if (message.equals("!clear")) {
             clear(musicManager, event.getChannel());
-        } else if (message.equals("!lyrics")) {
-            //lyrics(musicManager, event.getChannel());
+        } else if (message.startsWith("!lyrics")) {
+            String query = message.substring(message.indexOf(" ") + 1);
+
+            try {
+                lyrics(musicManager, event.getChannel(), query);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            
         }
     }
 

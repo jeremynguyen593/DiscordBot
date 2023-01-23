@@ -12,6 +12,7 @@ public class HelpCommand {
                 "5. **`!skip`** **`Skips over to the next song in the queue.`**\n\n" +
                 "6. **`!stop`** **`Stops the whole bot from playing music.`**\n\n" +
                 "7. **`!clear`** **`Clears the music queue but continues playing the current song.`**\n\n" +
-                "8. **`!queue`** **`Reveals the music queue.`**\n\n").queue();
+                "8. **`!queue`** **`Reveals the music queue.`**\n\n" +
+                "9. **`!lyrics <song> <artist>`** **`Pulls up the lyrics to a song. Add both song and artist name for the best results.`**\n\n").queue();
     }
 }
