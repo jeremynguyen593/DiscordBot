@@ -56,7 +56,7 @@ public class CommandManager extends ListenerAdapter {
             String query = message.substring(message.indexOf(" ") + 1);
 
             try {
-                lyrics(musicManager, event.getChannel(), query);
+                lyrics(event.getChannel(), query);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
