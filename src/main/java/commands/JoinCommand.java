@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class JoinCommand {
     public static void joinChannel(MessageReceivedEvent event) {
+        // Test
         Guild guild = event.getGuild();
 
         VoiceChannel userVoiceChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
