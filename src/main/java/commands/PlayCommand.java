@@ -15,7 +15,7 @@ import static lavaplayer.MusicBot.playerManager;
 
 public class PlayCommand {
     public static void play(String song, MessageReceivedEvent event, GuildMusicManager musicManager) {
-        //Checks if the user is in a voice channel
+        //Checks if the user is in a voice channell
         if (event.getMember().getVoiceState().getChannel() == null) {
             event.getChannel().sendMessage("You are not in a voice channel!").queue();
             return;
