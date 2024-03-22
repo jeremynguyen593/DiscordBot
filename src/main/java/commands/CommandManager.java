@@ -1,6 +1,7 @@
 package commands;
 
 import lavaplayer.GuildMusicManager;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 import static commands.ClearCommand.clear;
 import static commands.HelpCommand.help;
+import static commands.LeaveCommand.leave;
 import static commands.LyricsCommand.lyrics;
 import static commands.PlayCommand.play;
 import static commands.PauseCommand.pause;
@@ -25,6 +27,7 @@ public class CommandManager extends ListenerAdapter {
         if (event.getAuthor().isBot()) {
             return;
         }
+
         GuildMusicManager musicManager = getGuildAudioPlayer(event.getGuild(), event);
         // Grab the user's message to see if it's a command
         String message = event.getMessage().getContentRaw();
@@ -59,8 +62,9 @@ public class CommandManager extends ListenerAdapter {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-            
+        } else if (message.equals("!leave")) {
+            VoiceChannel voiceChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+            leave(voiceChannel);
         }
     }
 
